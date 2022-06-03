@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import DisplayResults from './DisplayResults';
+import Header from './Header/Header'
+import Login from './Login';
+import {useState} from 'react'
 
 function App() {
+  let val=9.99
+  const [Balance,setBalance]=useState(val)
+
+  const updateBalance=(Bal,mode)=>{
+      setBalance(Balance=>mode==='CR'?Balance + Bal:Balance - Bal)
+
+  }
+
+  let heading="Nilam Bhagde"
+  let bal=0.0;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header heading={heading} balance={Balance}/>
+      <DisplayResults  updateBalance={updateBalance}/>
+      
     </div>
   );
 }
