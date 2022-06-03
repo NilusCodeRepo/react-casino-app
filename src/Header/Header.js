@@ -118,7 +118,7 @@ const Header = (props) => {
                  </Stack>
                  :    <Stack sx={{ width: '100%' }} spacing={2}>
                  
-                 <Alert severity="info">Logged in as a Guest</Alert>
+                 <Alert onClose={() => {}} severity="info">Logged in as a Guest</Alert>
                </Stack>
            
             

@@ -16,14 +16,6 @@ import cardData from './cardData'
 import { useState } from 'react';
 
 
-const initialval={
-    img1_id:1,
-    img1:'./Assets/diamond.png',
-    img2_id:2,
-    img2:'./Assets/club.png',
-    img3_id:3,
-    img3:'./Assets/heart.png',
-}
 
 const style = {
     position: 'absolute',
@@ -216,6 +208,20 @@ let counter1=0,counter2=0,counter3=0,counter4=0
     setPage(0);
   };
 
+  const handleFakeSpin=(event)=>{
+      setCardImages({
+        img1_id:4,
+        img1:'./Assets/spade.png',
+        img2_id:4,
+        img2:'./Assets/spade.png',
+        img3_id:4,
+        img3:'./Assets/spade.png',
+      } )
+
+      props.updateBalance(5,'CR')
+
+  }
+
   return (
       <>
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -341,8 +347,8 @@ let counter1=0,counter2=0,counter3=0,counter4=0
         <Grid container justifyContent="center" spacing='12'>
          <div>
                 <Button variant='contained' color='error' style={btnStyle} onClick={handleSpin}>SPIN</Button>
-                <Button variant='contained' color='error'style={btnStyle}>FAKE SPIN</Button>
-                <Button variant='contained' value={12} color='error' style={btnStyle}>CLOSE</Button>
+                <Button variant='contained' color='error'style={btnStyle}  onClick={handleFakeSpin}>FAKE SPIN</Button>
+                <Button variant='contained' value={12} color='error' style={btnStyle} onClick={handleClose}>CLOSE</Button>
          </div>       
         </Grid>
       </Grid>
