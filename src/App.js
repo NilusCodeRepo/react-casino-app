@@ -8,12 +8,20 @@ import Snackbar from '@mui/material/Snackbar';
 
 function App() {
   let val=9.99
+  let userInfo={}
   const [Balance,setBalance]=useState(val)
   const [playerName,setPlayerName]=useState("Guest")
   const [open, setOpen] = useState(true)
+  
+  
+  useEffect(() => {
+     userInfo = JSON.parse(localStorage.getItem('userInfo'));
+   
+  }, [Balance]);
+
 
   
-
+  
 
   useEffect(() => {
     localStorage.setItem('Balance', JSON.stringify(Balance));
@@ -21,7 +29,10 @@ function App() {
 
   const updateBalance=(Bal,mode)=>{
       setBalance(Balance=>mode==='CR'?Balance + Bal:Balance - Bal)
-    
+    if(Balance <=0){
+      setBalance(9.99)
+
+    }
 
   }
 
@@ -33,17 +44,20 @@ function App() {
     setOpen(!open)
   }
 
-  let heading="Nilam Bhagde"
-  let bal=0.0;
+ 
 
   return (
     <div className="App">
-      <Header heading={heading} balance={Balance}/>
-      {Balance<=0 && <Snackbar open={open}>
-      <Alert variant="filled" severity="error" onClose={handleClose}>You are out of money, The game is over!</Alert>
-    </Snackbar>}
-      <DisplayResults  updateBalance={updateBalance}/>
+      <Header heading={userInfo.name} balance={Balance}/>
+      {Balance<=0 && 
       
+      <Snackbar open={open}>
+      <Alert variant="filled" severity="error" onClose={handleClose}>You are out of money, The game is over!</Alert>
+    </Snackbar>
+
+  }
+      <DisplayResults  updateBalance={updateBalance} balance={Balance} />
+
     </div>
   );
 }

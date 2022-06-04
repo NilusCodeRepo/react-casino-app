@@ -15,6 +15,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { useEffect } from 'react';
 
 
 
@@ -46,7 +47,7 @@ const Header = (props) => {
     const handleClose = () => setOpen(false);
 
     const [values, setValues] = React.useState({
-        name: '',
+        name: 'Guest',
         password: '',
         showPassword: false,
         isLoggedIn: false,
@@ -63,6 +64,10 @@ const Header = (props) => {
         });
     };
 
+    useEffect(() => {
+        localStorage.setItem('userInfo', JSON.stringify(values));
+      }, [values]);
+    
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
@@ -76,9 +81,6 @@ const Header = (props) => {
         })
 
         setOpen(false)
-
-
-
     }
 
     return (
@@ -95,7 +97,7 @@ const Header = (props) => {
                         >
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            {values.name ? `Welcome , ${values.name}` : props.heading}
+                            Welcome , {props.heading}
                         </Typography>
                         <AttachMoneyIcon />
                         <Typography variant="h6" component="div" >
