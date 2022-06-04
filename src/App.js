@@ -4,6 +4,7 @@ import Login from './Login';
 import {useState,useEffect} from 'react'
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import Footer from './Footer'
 
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
 
   }
       <DisplayResults  updateBalance={updateBalance} balance={Balance} />
-
+      <Footer />
     </div>
   );
 }
