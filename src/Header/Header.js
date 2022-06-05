@@ -16,6 +16,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { useEffect } from 'react';
+import {useDispatch} from 'react-redux'
+import {login} from '../Redux/userSlice'
 
 
 
@@ -40,18 +42,45 @@ const paperStyle = {
 const Header = (props) => {
 
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => {
-        values.isLoggedIn ? setValues("") : setOpen(true);
-
-    }
-    const handleClose = () => setOpen(false);
-
     const [values, setValues] = React.useState({
-        name: 'Guest',
+        name: 'CardCasino',
         password: '',
         showPassword: false,
         isLoggedIn: false,
     });
+    const [uname,setUname]=React.useState();
+    const dispatch=useDispatch()
+
+
+    const handleOpen = () => {
+        props.logState ? handleLogout() : setOpen(true);
+
+    }
+    const handleClose = () => setOpen(false);
+
+    const handleLogout=()=>{
+        setValues({            
+            name: 'CardCasino',
+            password: '',
+            showPassword: false,
+            isLoggedIn: !values.isLoggedIn,
+            
+        })
+
+       // setUname('CardCasino')
+
+        localStorage.setItem('userInfo', JSON.stringify({}));
+        localStorage.setItem('Balance', JSON.stringify('0'));
+        props.updateUserInfo(values.name)
+
+    }
+
+   const sendData=()=>{
+    console.log("logout done",values.name,values.password,values.isLoggedIn)    
+    //props.updateUserInfo(values)
+
+   }
+    
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -66,6 +95,7 @@ const Header = (props) => {
 
     useEffect(() => {
         localStorage.setItem('userInfo', JSON.stringify(values));
+
       }, [values]);
     
     const handleMouseDownPassword = (event) => {
@@ -80,9 +110,24 @@ const Header = (props) => {
             isLoggedIn: !values.isLoggedIn
         })
 
+
+        props.updateUserInfo(values.name)
         setOpen(false)
     }
 
+   const handleGuestLOgin=(event)=>{
+       console.log("inside guest login")
+    setValues({
+        name: 'Guest',
+        password:'',
+        showPassword: false,
+        isLoggedIn: true,
+    })
+
+    props.updateUserInfo(values.name)
+    setOpen(false)
+
+   } 
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
@@ -97,31 +142,30 @@ const Header = (props) => {
                         >
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Welcome , {props.heading}
+                        {props.logState?`Welcome , ${props.heading}`:props.heading}
                         </Typography>
                         <AttachMoneyIcon />
                         <Typography variant="h6" component="div" >
                             <Box sx={{ textAlign: 'right', m: 1 }}>
-                                {props.balance}
+                            {props.logState?  props.balance : '0'}
+
+                              
                             </Box>
                         </Typography>
 
                         <IconButton sx={{ p: 0 }}>
                             <Avatar alt="Remy Sharp" src="https://randomuser.me/api/portraits/men/71.jpg" />
                         </IconButton>
-                        <Button color="inherit" onClick={handleOpen}>{values.isLoggedIn ? "Logout" : "Login"}</Button>
+                        <Button color="inherit" onClick={handleOpen}>{props.logState ? "Logout" : "Login"}</Button>
                     </Toolbar>
                 </AppBar>
             </Box>
 
-            {values.isLoggedIn?
+            {props.logState?
                 <Stack sx={{ width: '100%' }} spacing={2}>
-                    <Alert severity="success">Successfully logged in.</Alert>
+                    <Alert severity="success">Logged in as a {props.heading}</Alert>
                  </Stack>
-                 :    <Stack sx={{ width: '100%' }} spacing={2}>
-                 
-                 <Alert onClose={() => {}} severity="info">Logged in as a Guest</Alert>
-               </Stack>
+                 :    ''
            
             
           }
@@ -172,7 +216,7 @@ const Header = (props) => {
                         </FormControl>
 
                         <FormControl sx={{ m: 1, width: '50ch' }}>
-                            <Button variant="outlined" color="error" onClick={handleClose}>Login as a Guest</Button>
+                            <Button variant="outlined" color="error" onClick={handleGuestLOgin}>Login as a Guest</Button>
                         </FormControl>
                     </form>
                 </Box>

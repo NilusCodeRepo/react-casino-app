@@ -8,6 +8,8 @@ import { Grid} from '@mui/material'
 import cardData from './cardData'
 import { useState } from 'react';
 import Records from './Records';
+import logo from './Assets/spinner.png'
+import './Spin.css';
 
 
 
@@ -86,9 +88,10 @@ export default function DisplayResults(props) {
        }
 
 const handleSpin=(event)=>{
-    
-    if(props.balance<=0){
+
+    if(props.balance<=0 ){
         handleClose()
+       // setRecords([{}])
     }else{
     // $2 deducted for spining
     props.updateBalance(2,"DR")
@@ -254,7 +257,7 @@ let counter1=0,counter2=0,counter3=0,counter4=0
                     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                 }}
               >
-                    <img  src={require(''+cardImages.img3)} style={{height:140,width:100}} alt="card3"/>
+                <img  src={require(''+cardImages.img3)} style={{height:140,width:100}} alt="card3"/>
 
               </Paper>    
             </Grid>
@@ -265,8 +268,9 @@ let counter1=0,counter2=0,counter3=0,counter4=0
       <Grid item xs={12}>
         <Grid container justifyContent="center" spacing='12'>
          <div>
-                <Button variant='contained' color='error' style={btnStyle} onClick={handleSpin}>SPIN</Button>
                 <Button variant='contained' color='error'style={btnStyle}  onClick={handleFakeSpin}>FAKE SPIN</Button>
+
+                <Button variant='contained' color='error' style={btnStyle} onClick={handleSpin}>SPIN</Button>
                 <Button variant='contained' value={12} color='error' style={btnStyle} onClick={handleClose}>CLOSE</Button>
          </div>       
         </Grid>
